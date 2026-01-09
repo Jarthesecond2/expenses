@@ -13,7 +13,7 @@ function App() {
     title: 'New jeans',
     price: 99.99
   }
-]
+];
 
   return (
 
@@ -25,4 +25,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
