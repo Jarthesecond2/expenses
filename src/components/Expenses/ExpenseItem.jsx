@@ -1,6 +1,6 @@
 import ExpenseDate from './ExpenseDate.jsx'
 import './ExpenseItem.css'
-import Card from './Card.jsx'
+import Card from '../UI/Card.jsx'
 const ExpenseItem = (props) => {
     const day = props.data.date.toLocaleString('en-US', {day: '2-digit'});
     const month = props.data.date.toLocaleString('en-US', {month: 'long'});
