@@ -7,6 +7,10 @@ import "./Expenses.css";
 const Expenses = (props) => {
     const [filteredYear, setFilteredYear] = useState("2026");
 
+    const filterYearHandler = (filteredYear) => {
+        console.log('Year data in Expenses.js ' + filteredYear);
+    }
+
     const filterChangeHandler = (selectedYear) => {
         setFilteredYear(selectedYear);
     };
@@ -19,7 +23,7 @@ const Expenses = (props) => {
             />
             <p>Selected Year: {filteredYear}</p>
             {props.expenses.map((expense) => (
-                <ExpenseItem key={expense.id} data={expense} />
+                <ExpenseItem expenseData={expense} key={expense.id} />
             ))}
         </Card>
     );
