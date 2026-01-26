@@ -7,7 +7,7 @@ import ExpenseFilter from "./components/Expenses/ExpensesFilter";
 const DYMMY_EXPENSES = [ 
   {
     id:'id1',
-    date: new Date(2024, 10, 12),
+    date: new Date(2023, 10, 12),
     title: 'New book',
     price: 30.99
   },
@@ -27,21 +27,31 @@ const DYMMY_EXPENSES = [
 
 const App = () => {
   const [expenses, setExpenses] = useState(DYMMY_EXPENSES);
+  const [filteredYear, setFilteredYear] = useState("2026");
 
   const addExpenseHandler = (expense) => {
      setExpenses((prevExpenses) => {
-      return [expense, ...previousExpenses];
-     })
+      return [expense, ...prevExpenses];
+     });
   };
+
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
 
   return (
     <div className="App">
       <NewExpense onAddExpense={addExpenseHandler}></NewExpense>
-      <ExpenseFilter />
-      <ExpenseItem data={DYMMY_EXPENSES[0]} />
-      <ExpenseItem data={DYMMY_EXPENSES[1]} />
-      <ExpenseItem data={DYMMY_EXPENSES[2]} />
-    </div> 
+      <ExpenseFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
+      {filteredExpenses.map((expense) => (
+        <ExpenseItem key={expense.id} data={expense} />
+      ))}
+    </div>
   );
-}
-export default App
+};
+
+export default App;

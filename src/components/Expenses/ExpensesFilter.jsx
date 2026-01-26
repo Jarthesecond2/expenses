@@ -1,4 +1,3 @@
-
 import './ExpensesFilter.css';
 
 const ExpensesFilter = (props) => {
