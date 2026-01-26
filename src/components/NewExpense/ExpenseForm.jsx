@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./ExpenseForm.css";
 
 const ExpenseForm = (props) => {
+    const titleInputRef = useRef();
+    const amountInputRef = useRef();
+    const dateInputRef = useRef();
+
     const submitHandler = (event) => {
+        const enteredTitle = titleInputRef.current.value;
+        const enteredPrice = amountInputRef.current.value;
+        const enteredDate = dateInputRef.current.value;
+
         event.preventDefault();
         const expenseData = {
             title: enteredTitle,
@@ -10,9 +18,10 @@ const ExpenseForm = (props) => {
             date: new Date(enteredDate),
         };
         props.onSaveExpenseData(expenseData);
-        setEnteredTitle("");
-        setEnteredPrice("");
-        setEnteredDate("");
+        props.onCancel();
+        titleInputRef.current.value = '';
+        amountInputRef.current.value = '';
+        dateInputRef.current.value = '';
     };
 
     const [enteredTitle, setEnteredTitle] = useState("");
@@ -38,14 +47,18 @@ const ExpenseForm = (props) => {
                     <label>Title</label>
                     <input
                         type="text"
+                        id="title"
+                        ref={titleInputRef}
                         onChange={titleChangeHandler}
                         value={enteredTitle}
                     />
                 </div>
                 <div className="new-expense__control">
-                    <label>Price</label>
+                    <label>Amount</label>
                     <input
                         type="number"
+                        id="amount"
+                        ref={amountInputRef}
                         min="0.01"
                         step="0.01"
                         onChange={priceChangeHandler}
@@ -56,6 +69,8 @@ const ExpenseForm = (props) => {
                     <label>Date</label>
                     <input
                         type="date"
+                        id="date"
+                        ref={dateInputRef}
                         min="2024-11-12"
                         max="2026-01-31"
                         onChange={dateChangeHandler}
