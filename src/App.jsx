@@ -26,8 +26,14 @@ const DYMMY_EXPENSES = [
 ]
 
 const App = () => {
-  const [expenses, setExpenses] = useState(DYMMY_EXPENSES);
-  const [filteredYear, setFilteredYear] = useState("2026");
+  const [expenses, setExpenses] = useState(() => {
+    const expensesFromLS = JSON.parse(localStorage.getItem('expenses'));
+    return expensesFromLS || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpenseHandler = (expense) => {
      setExpenses((prevExpenses) => {
