@@ -32,7 +32,7 @@ const Error = (props) => {
     return (
         <Fragment>
             {ReactDOM.createPortal(
-                <BackDrop onConfirm={props.onConfirm} />,
+                <Backdrop onConfirm={props.onConfirm} />,
                 document.getElementById("backdrop-root")
             )}
             {ReactDOM.createPortal(
@@ -42,8 +42,7 @@ const Error = (props) => {
                     onConfirm={props.onConfirm}
                 />,
                 document.getElementById("overlay-root")
-                )
-                }
+            )}
         </Fragment>
     );
 }

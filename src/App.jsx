@@ -6,7 +6,7 @@ import ExpenseFilter from "./components/Expenses/ExpensesFilter";
 
 const DYMMY_EXPENSES = [ 
   {
-    id:'id1',
+    id: 'id1',
     date: new Date(2023, 10, 12),
     title: 'New book',
     price: 30.99
