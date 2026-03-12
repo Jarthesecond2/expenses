@@ -1,9 +1,10 @@
 import './App.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExpenseItem from "./components/Expenses/ExpenseItem";
 import NewExpense from "./components/NewExpense/NewExpense";
-import ExpenseFilter from "./components/Expenses/ExpensesFilter";
-
+import Expenses from "./components/Expenses/Expenses.jsx"
+import ExpensesFilter from "./components/Expenses/ExpensesFilter.jsx"
+<source />
 const DYMMY_EXPENSES = [ 
   {
     id: 'id1',
@@ -26,36 +27,31 @@ const DYMMY_EXPENSES = [
 ]
 
 const App = () => {
-  const [expenses, setExpenses] = useState(() => {
-    const expensesFromLS = JSON.parse(localStorage.getItem('expenses'));
-    return expensesFromLS || [];
-  });
+  const [isFetching, setIsFetching] = useState(false)
+  const [expenses, setExpenses] = useState([])
 
   useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
+    const getExpenses = async () => {
+      setIsFetching(true)
+      const response = await fetch('http://localhost:5173/expenses')
+      const responseData = await response.json()
+      setExpenses(responseData.expenses)
+      setIsFetching(false)
+    }
+    getExpenses()
+    console.log(expenses)
+}, [])
 
   const addExpenseHandler = (expense) => {
-     setExpenses((prevExpenses) => {
-      return [expense, ...prevExpenses];
+     setExpenses((previousExpenses) => {
+      return [expense, ...previousExpenses];
      });
   };
-
-  const filterChangeHandler = (selectedYear) => {
-    setFilteredYear(selectedYear);
-  };
-
-  const filteredExpenses = expenses.filter((expense) => {
-    return expense.date.getFullYear().toString() === filteredYear;
-  });
 
   return (
     <div className="App">
       <NewExpense onAddExpense={addExpenseHandler}></NewExpense>
-      <ExpenseFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {filteredExpenses.map((expense) => (
-        <ExpenseItem key={expense.id} data={expense} />
-      ))}
+      <Expenses expenses={expenses} isLoading={isFetching}></Expenses>
     </div>
   );
 };
